@@ -4,15 +4,14 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
 
 import de.der_nik.niksimagepicker.R;
 import de.der_nik.niksimagepicker.data.models.Image;
 import de.der_nik.niksimagepicker.databinding.ItemGalleryImageBinding;
-import de.der_nik.niksimagepicker.viewmodels.ImageViewModel;
+import de.der_nik.niksimagepicker.viewmodels.GalleryImageViewModel;
+
 
 /**
  * Created by nhenry on 30.12.2016.
@@ -31,19 +30,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.BindingHolde
 
 	@Override
 	public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		ItemGalleryImageBinding imageBinding = DataBindingUtil.inflate(
-				LayoutInflater.from(parent.getContext()),
-				R.layout.item_gallery_image,
-		        parent,
-		        false);
-		return new BindingHolder(imageBinding);
+		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery_image, parent, false);
+		return new BindingHolder(v);
 	}
 
 	@Override
 	public void onBindViewHolder(BindingHolder holder, int position) {
-		ItemGalleryImageBinding imageBinding = holder.binding;
-		imageBinding.setViewModel(new ImageViewModel(context, images[position]));
-//		Picasso.with(context).load(imageBinding.getViewModel().getImageFile()).noFade().resize(400, 400).centerCrop().into(holder.mImageView);
+
+		final GalleryImageViewModel image = new GalleryImageViewModel(context, images[position], holder.getBinding().imageView);
+		holder.bindImage(image);
 	}
 
 	@Override
@@ -55,13 +50,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.BindingHolde
 	public static class BindingHolder extends RecyclerView.ViewHolder
 	{
 		private ItemGalleryImageBinding binding;
-		private ImageView mImageView;
 
-		public BindingHolder (ItemGalleryImageBinding binding)
+		public BindingHolder (View view)
 		{
-			super(binding.cardView);
-			this.binding = binding;
-			mImageView = binding.imageView;
+			super(view);
+			this.binding = DataBindingUtil.bind(view);
+		}
+		public ItemGalleryImageBinding getBinding()
+		{
+			return binding;
+		}
+
+		public void bindImage(GalleryImageViewModel image)
+		{
+			binding.setGalleryImage(image);
 		}
 	}
 }

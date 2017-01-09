@@ -1,11 +1,13 @@
 package de.der_nik.niksimagepicker;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,15 +29,16 @@ public class OverviewActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overview);
 		img = (RecyclerView) findViewById(R.id.grid);
-		showGallery(stuff());
+		showGallery();
 
 	}
-	public void showGallery(Image[] imgs)
+	public void showGallery()
 	{
 		int permissionCheck = ContextCompat.checkSelfPermission(this,
 		                                                        Manifest.permission.READ_EXTERNAL_STORAGE);
 		if(permissionCheck == PackageManager.PERMISSION_GRANTED)
 		{
+			Image[] imgs = stuff();
 			Log.d("xxx", "Menge: "+ imgs.length);
 			for (int i = 0; i < imgs.length; i++)
 			{
@@ -52,7 +55,18 @@ public class OverviewActivity extends AppCompatActivity {
 		}
 		else
 		{
-			Log.d("xxx", "Keine Permission");
+			Log.d("xxx","Keine Permission");
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Permission fehlt")
+			       .setTitle("No Permission")
+			       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				       @Override
+				       public void onClick(DialogInterface dialogInterface, int i) {
+					       finish();
+				       }
+			       })
+			       .create()
+			.show();
 		}
 
 	}

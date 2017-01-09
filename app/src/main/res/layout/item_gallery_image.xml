@@ -3,8 +3,8 @@
     
     <data>
         <variable
-            name="viewModel"
-            type="de.der_nik.niksimagepicker.viewmodels.ImageViewModel" />
+            name="galleryImage"
+            type="de.der_nik.niksimagepicker.viewmodels.GalleryImageViewModel" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{viewModel.onClickImage()">
+            android:onClick="@{galleryImage.onClickImage()">
 
             <ImageView
                 android:layout_width="match_parent"

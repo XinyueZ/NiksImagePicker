@@ -3,7 +3,7 @@
 <data>
     <variable
         name="viewModel"
-        type="de.der_nik.niksimagepicker.viewmodels.ImageViewModel" />
+        type="de.der_nik.niksimagepicker.viewmodels.GalleryImageViewModel" />
 </data>
 
     <LinearLayout
